@@ -1,0 +1,22 @@
+{
+  "name": "sequelizer-example",
+  "version": "1.0.0",
+  "description": "For example purpose",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./dist/index.js"
+  },
+  "keywords": [
+    "sequelizer",
+    "mysql",
+    "orm"
+  ],
+  "author": "Ridho",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "^2.18.1",
+    "mysql2": "^3.3.0",
+    "nodemon": "^2.0.22",
+    "sequelize": "^6.11.0"
+  }
+}
