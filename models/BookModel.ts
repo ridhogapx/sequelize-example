@@ -32,17 +32,27 @@ const Book = sequelize.define('books', {
 	}
 })
 
-sequelize.sync().then(():void => {
+// With promise way
+sequelize.sync().then((): void => {
 	console.log('Book table was successfully created');
 	Book.findOne({
 		where: {
 			id: 1
 		}
 	}).then((res:any ) => {
-		console.log(res);
+		console.log(`Filtered data by ID: ${JSON.stringify(res,null,2)}`);
 	}).catch((err:any) => {
 		console.log(err);
 	})
 }).catch((err:any) => {
 	console.log(`Failed to added table ${err}`);
 })
+
+// With async await
+const retrieveData = async(): Promise<void> => {
+	const query = await Book.findAll();
+	console.log(`All data: ${JSON.stringify(query, null, 2)}`);
+	
+}
+
+retrieveData();
