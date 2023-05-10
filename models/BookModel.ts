@@ -26,6 +26,12 @@ const Book = sequelize.define('books', {
 	}
 })
 
+interface ResponseMessage {
+	message: string,
+	success: boolean,
+	status: number,
+}
+
 // With promise way
 // sequelize.sync().then((): void => {
 // 	console.log('Book table was successfully created');
@@ -42,10 +48,37 @@ const Book = sequelize.define('books', {
 // 	console.log(`Failed to added table ${err}`);
 // })
 
-// With async await
-const retrieveData = async(): Promise<void> => {
-	const query = await Book.findAll();
-	console.log(`All data: ${JSON.stringify(query, null, 2)}`);
+export const BookAuthenticate = async(): Promise<void> => {
+	try {
+		await sequelize.authenticate();
+		console.log(`Connection to database is success!`);
+	} catch (err) {
+		console.log(`Connection to database is failed ${err}`);
+	}
 }
 
-retrieveData()
+export const BookSync = async(): Promise<void> => {
+	try {
+		await sequelize.sync();
+		console.log('Book table was successfully created!');
+	} catch (err) {
+		console.log(`There is error while adding table ${err}`);
+	}
+}
+
+// With async await
+export const retrieveData = async(req: any, res: any): Promise<void> => {
+	try {
+		const query = await Book.findAll();
+		res.end(JSON.stringify(query,null,2));
+	} catch {
+		const failedResponse: ResponseMessage = {
+			message: 'Data not found',
+			success: false,
+			status: 404
+		};
+
+		res.end(JSON.stringify(failedResponse, null, 2));
+	}
+}
+
